@@ -1,10 +1,27 @@
 #!/bin/bash
+
+lambda="github.com/aws/aws-lambda-go"
+file="$GOPATH/src/$lambda"
+
+echo "Checking if aws-lambda-go exists at $file"
+if [ -d "$file" ]
+then
+	echo "aws-lambda-go package already installed."
+else
+	echo "Installing aws-lambda-go"
+  go get "$lambda/lambda"
+fi
+
 ./cleanup
+
 echo "Creating new dist folder"
 mkdir dist
+
 echo "Building main.go as dist/main"
 GOOS=linux GOARCH=amd64 go build -o dist/main main.go
+
 echo "Creating zip file"
 $GOPATH/bin/build-lambda-zip -o dist/main.zip dist/main
+
 echo "Removing main executable file"
 rm dist/main
