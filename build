@@ -1,11 +1,10 @@
 #!/bin/bash
-echo "Removing old dist folder"
-rm -rf dist
+./cleanup
 echo "Creating new dist folder"
 mkdir dist
 echo "Building main.go as dist/main"
 GOOS=linux GOARCH=amd64 go build -o dist/main main.go
 echo "Creating zip file"
-$GOPATH/bin/build-lambda-zip -o dist/main.zip main
+$GOPATH/bin/build-lambda-zip -o dist/main.zip dist/main
 echo "Removing main executable file"
 rm dist/main
