@@ -1,6 +1,7 @@
 package main
 
 import (
+  "encoding/json"
 	"github.com/aws/aws-lambda-go/lambda"
 )
 
@@ -17,16 +18,19 @@ type Response struct {
   Body string `json:"body"`
 }
 
-func HandleRequest() (Response, error) {
-  var response Response;
-  response.IsBase64Encoded = false;
-  response.StatusCode = 200;
-  response.Headers = HeaderResponse{
+var response = Response{
+  IsBase64Encoded: false,
+  StatusCode: 200,
+  Headers: HeaderResponse{
     AccessControlAllowOrigin : "*",
     AccessControlAllowCredentials : true,
     ContentType: "application/json",
-  }
-  response.Body = "Hello world"
+  },
+};
+
+func HandleRequest() (Response, error) {
+  stringifiedBody, _ := json.Marshal("Hello world")
+  response.Body = string(stringifiedBody)
   return response, nil
 }
 
