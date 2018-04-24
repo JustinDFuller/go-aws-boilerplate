@@ -2,6 +2,7 @@
 
 lambda="github.com/aws/aws-lambda-go"
 file="$GOPATH/src/$lambda"
+isWindows=uname -o == "Msys"
 
 echo "Checking if aws-lambda-go exists at $file"
 if [ -d "$file" ]
@@ -9,7 +10,7 @@ then
 	echo "aws-lambda-go package already installed."
 else
 	echo "Installing aws-lambda-go"
-  go get "$lambda/lambda"
+	go get "$lambda/lambda"
 fi
 
 ./cleanup
